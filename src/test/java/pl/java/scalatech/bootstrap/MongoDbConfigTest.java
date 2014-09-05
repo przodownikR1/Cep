@@ -28,14 +28,14 @@ import pl.java.scalatech.config.MongoDBConfig;
 import pl.java.scalatech.service.filestorage.FileService;
 import pl.java.scalatech.service.filestorage.MongoFileService;
 import pl.java.scalatech.service.filestorage.pojo.FileData;
+import pl.java.scalatech.util.FileOperations;
 
 import com.google.common.collect.Maps;
 
 /**
- * @author Sławomir Borowiec 
- * Module name : Cep
- * Creating time :  5 wrz 2014 12:47:00
- 
+ * @author Sławomir Borowiec
+ *         Module name : Cep
+ *         Creating time : 5 wrz 2014 12:47:00
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -56,15 +56,14 @@ public class MongoDbConfigTest {
     private String slawek;
     private String fileName;
     private File f;
-    private Map<String, String> meta;
     private Map<String, String> extra;
 
     @Before
     public void init() {
-        
+
         fileName = "src/test/resources/2.png";
         f = new File(fileName);
-        fileName = fileName.substring(fileName.lastIndexOf("/") + 1, fileName.length());
+        fileName = FileOperations.getOnlyFileNameFromPath(fileName);
 
         extra = Maps.newHashMap();
         extra.put("name", "mike");
@@ -77,13 +76,15 @@ public class MongoDbConfigTest {
         log.info("+++      slawek : {}", environment.getProperty("slawek"));
         log.info("+++      slawek2 : {}", slawek);
     }
-   // @Ignore
+
+    // @Ignore
     @Test(expected = NullPointerException.class)
     public void a_shouldExceptionThrowWhenFileNotExistsInStorage() {
         log.info("order 1");
         fileService.retrieveFileDataByMD5("f117eda589f22ca5a8910173367d971a");
     }
-   // @Ignore
+
+    // @Ignore
     @Test(expected = NullPointerException.class)
     public void b_shouldExceptionThrowWhenFileNotExistsInStorage_CreateVersion() {
         log.info("order 2");
@@ -121,7 +122,8 @@ public class MongoDbConfigTest {
         createFile(fd2);
 
     }
-   // @Ignore
+
+    // @Ignore
     @Test(expected = NullPointerException.class)
     public void e_shouldRemoveFileFromStorage() {
         log.info("order 5");
@@ -130,6 +132,5 @@ public class MongoDbConfigTest {
         fileService.retrieveFileDataByFileName(fileName);
 
     }
-    
 
 }
