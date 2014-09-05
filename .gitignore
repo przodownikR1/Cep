@@ -79,3 +79,5 @@ local.properties
 *~
 
 gc.log
+/mongoDB-springBoot.log
+/file_from_fd_store.png

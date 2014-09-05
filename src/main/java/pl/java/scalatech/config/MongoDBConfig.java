@@ -33,6 +33,9 @@ public class MongoDBConfig extends AbstractMongoConfiguration {
     @Value("${mongoDBName}")
     private  String mongoDBName;
     
+    @Value("${mongoPort}")
+    private  String mongoPort;
+    
     @Bean
     public GridFsTemplate gridFsTemplate() throws Exception {
            return new GridFsTemplate(mongoDbFactory(), mappingMongoConverter());
@@ -47,14 +50,14 @@ public class MongoDBConfig extends AbstractMongoConfiguration {
     @Override
     @Bean
     public Mongo mongo() throws Exception {
-            return new MongoClient("127.0.0.1");
+            return new MongoClient(mongoPort);
     }
     
   
 
     @Override
     public String getDatabaseName() {
-        return env.getProperty("mongoDBName");
+        return mongoDBName;
     }
 
     @Bean
