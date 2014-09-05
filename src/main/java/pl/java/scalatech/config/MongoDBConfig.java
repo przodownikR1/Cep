@@ -9,7 +9,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
-import org.springframework.test.context.transaction.TransactionConfiguration;
+
 
 import com.mongodb.DB;
 import com.mongodb.Mongo;
@@ -19,7 +19,7 @@ import com.mongodb.gridfs.GridFS;
 @Configurable
 @PropertySource("classpath:mongo.properties")
 @PropertySource(value = "file:${CONF_DIR}/optional-mongo.properties", ignoreResourceNotFound = true)
-@TransactionConfiguration
+
 public class MongoDBConfig extends AbstractMongoConfiguration {
     @Autowired
     private Environment env;
