@@ -10,7 +10,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 
-
 import com.mongodb.DB;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
@@ -19,41 +18,36 @@ import com.mongodb.gridfs.GridFS;
 @Configurable
 @PropertySource("classpath:mongo.properties")
 @PropertySource(value = "file:${CONF_DIR}/optional-mongo.properties", ignoreResourceNotFound = true)
-
 public class MongoDBConfig extends AbstractMongoConfiguration {
     @Autowired
     private Environment env;
-    
-    
+
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-       return new PropertySourcesPlaceholderConfigurer();
+        return new PropertySourcesPlaceholderConfigurer();
     }
-    
+
     @Value("${mongoDBName}")
-    private  String mongoDBName;
-    
+    private String mongoDBName;
+
     @Value("${mongoPort}")
-    private  String mongoPort;
-    
+    private String mongoPort;
+
     @Bean
     public GridFsTemplate gridFsTemplate() throws Exception {
-           return new GridFsTemplate(mongoDbFactory(), mappingMongoConverter());
+        return new GridFsTemplate(mongoDbFactory(), mappingMongoConverter());
     }
-  
+
     @Bean
-    public DB mongoDB() throws Exception{
+    public DB mongoDB() throws Exception {
         return mongo().getDB(mongoDBName);
     }
-  
 
     @Override
     @Bean
     public Mongo mongo() throws Exception {
-            return new MongoClient(mongoPort);
+        return new MongoClient(mongoPort);
     }
-    
-  
 
     @Override
     public String getDatabaseName() {
@@ -61,8 +55,8 @@ public class MongoDBConfig extends AbstractMongoConfiguration {
     }
 
     @Bean
-    public GridFS gridFS() throws Exception{
+    public GridFS gridFS() throws Exception {
         return new GridFS(mongoDB());
     }
-    
+
 }

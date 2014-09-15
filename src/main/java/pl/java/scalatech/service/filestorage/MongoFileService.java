@@ -4,7 +4,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static pl.java.scalatech.util.FileOperations.convertByteToInputStream;
 import static pl.java.scalatech.util.FileOperations.convertInputStreamToByte;
 
-import java.io.IOException;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -20,7 +19,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Component;
 
-import pl.java.scalatech.exception.StreamOperationException;
 import pl.java.scalatech.service.filestorage.pojo.FileData;
 import pl.java.scalatech.util.FileOperations;
 

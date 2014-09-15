@@ -18,4 +18,5 @@ public class ApplicationInfo extends AbstractSettings {
     private String name;
     private String description;
     private String version;
+    
 }

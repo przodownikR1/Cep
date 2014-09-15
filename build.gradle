@@ -4,7 +4,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.5.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.6.RELEASE")
         //1.0.0.RC4
         //1.0.1.RELEASE
     }
@@ -17,13 +17,18 @@ apply plugin: 'build-dashboard'
 apply plugin: 'codenarc'
 apply from: './properties.gradle'
 apply plugin: 'spring-boot'
-
+apply plugin: 'war'
 
 sourceCompatibility = 1.8
 
 jar {
     baseName = 'cep-poc'
     version = '0.1.0'
+}
+
+war {
+    baseName = 'cep-poc'
+    version =  '0.1.0'
 }
 
 sourceSets {
@@ -47,6 +52,10 @@ repositories {
     }
 }
 
+configurations {
+    providedRuntime
+}
+
 dependencies {
     compile ("org.codehaus.groovy:groovy:${groovyVersion}")
     compile("org.springframework.boot:spring-boot-starter-web")
@@ -58,7 +67,10 @@ dependencies {
     // compile("org.springframework.boot:spring-boot-starter-security")
     //compile("org.springframework.security.oauth:spring-security-oauth2:${springSecurityOauth2Version}")
   
-    compile("org.springframework.data:spring-data-rest-webmvc:${springDataRestWebmvcVersion}")
+    //compile("org.springframework.data:spring-data-rest-webmvc:${springDataRestWebmvcVersion}")
+    compile("com.mangofactory:swagger-springmvc:0.8.8")
+    compile ("org.ajar:swagger-spring-mvc-ui:0.2")
+    
     compile ("org.springframework.data:spring-data-mongodb:1.5.2.RELEASE")
     compile ("com.sun.jersey:jersey-bundle:1.18")
    
@@ -68,12 +80,16 @@ dependencies {
     compile("com.codahale.metrics:metrics-core:${codahale}")
     compile("com.codahale.metrics:metrics-graphite:${codahale}")
     compile("com.codahale.metrics:metrics-jvm:${codahale}")
+    compile("com.ryantenney.metrics:metrics-spring:3.0.1")
     compile("com.codahale.metrics:metrics-servlet:${codahale}")
     compile("com.codahale.metrics:metrics-servlets:${codahale}")
     
+    compile("org.apache.httpcomponents:httpclient:${httpClientVersion}")
+    compile("org.apache.httpcomponents:fluent-hc:${httpClientVersion}")
+    
     compile("com.google.code.gson:gson:${gsonVersion}")
     compile("org.yaml:snakeyaml:{snakeYamlVersion}")
-   
+    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
     
      testCompile("org.hamcrest:hamcrest-all:$hamcrestVersion")
      compile("org.mockito:mockito-all:$mockitoVersion")

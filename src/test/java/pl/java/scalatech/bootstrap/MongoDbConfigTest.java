@@ -2,6 +2,7 @@ package pl.java.scalatech.bootstrap;
 
 import static pl.java.scalatech.util.FileOperations.createFile;
 import static pl.java.scalatech.util.FileOperations.fileToBytes;
+import static pl.java.scalatech.util.FileOperations.getOnlyFileNameFromPath;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,7 +57,6 @@ public class MongoDbConfigTest {
     private String slawek;
     private String fileName;
     private File f;
-    private Map<String, String> meta;
     private Map<String, String> extra;
 
     @Before
@@ -64,7 +64,7 @@ public class MongoDbConfigTest {
         
         fileName = "src/test/resources/2.png";
         f = new File(fileName);
-        fileName = fileName.substring(fileName.lastIndexOf("/") + 1, fileName.length());
+        fileName = getOnlyFileNameFromPath(fileName);
 
         extra = Maps.newHashMap();
         extra.put("name", "mike");

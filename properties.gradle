@@ -8,7 +8,7 @@ ext {
       slf4jVersion = "1.7.7"
       logbackVersion = "1.1.2"
       
-      springVersion = "4.0.6.RELEASE"
+      springVersion = "4.0.7.RELEASE"
       springDataRestWebmvcVersion = "2.0.0.RELEASE"
       springDataJPAVersion = "1.6.0.RELEASE"
       javaxValidationVersion = "1.1.0.Final"
@@ -22,7 +22,8 @@ ext {
       gsonVersion="2.2.4"       
       aspectJVersion = "1.7.4"
       javaVersion = "1.8"
-      codahale="3.0.1"
+      codahale="3.0.2"
       jmhVersion = "0.5.5" 
       springSecurityOauth2Version="1.0.5.RELEASE"
+      httpClientVersion="4.3.5"
 }
