@@ -42,11 +42,10 @@ public class ImageController {
 
     @ApiOperation(httpMethod = "GET", value = "getPhoto")
     @ApiResponses(value = {
-            @ApiResponse(code=HttpServletResponse.SC_BAD_REQUEST, message = "BAD_REQUEST | Invalid Request Received."),
-            @ApiResponse(code=HttpServletResponse.SC_PROXY_AUTHENTICATION_REQUIRED, message = "REQUEST_DENIED | The API key is required."),
-            @ApiResponse(code=HttpServletResponse.SC_UNAUTHORIZED, message = "REQUEST_DENIED | The provided API key is invalid."),
-            @ApiResponse(code=HttpServletResponse.SC_ACCEPTED, message = "ACCEPTED_BUT_NOT_PROCESSED | Input text is required."),
-            @ApiResponse(code=HttpServletResponse.SC_INTERNAL_SERVER_ERROR, message = "INTERNAL_SERVER_ERROR | Internal Error Occurred.")
+            @ApiResponse(code=HttpServletResponse.SC_BAD_REQUEST, message = "BAD_REQUEST | request problem."),
+            @ApiResponse(code=HttpServletResponse.SC_UNAUTHORIZED, message = "UNAUTHORIZED | The token is necessary."),
+            @ApiResponse(code=HttpServletResponse.SC_ACCEPTED, message = "ACCEPTED_WAIT_FOR_THE_RESULT"),
+            @ApiResponse(code=HttpServletResponse.SC_INTERNAL_SERVER_ERROR, message = "INTERNAL_SERVER_ERROR | Internal application problem")
             })
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, headers = "Accept=image/jpeg, image/jpg, image/png, image/gif")
     public @ResponseBody byte[] getPhoto(@PathVariable("id") Integer photoId, Principal principal) throws IOException {

@@ -32,7 +32,7 @@ public class HealthController {
   
 
     @RequestMapping(value = "/api/appContext", method = RequestMethod.GET)
-    @ApiOperation(httpMethod = "GET", value = "healt bean list")
+    @ApiOperation(httpMethod = "GET", value = "health bean list")
     
     public ResponseEntity<String> appContext() {
         List<String> names = Lists.newArrayList(applicationContext.getBeanDefinitionNames());

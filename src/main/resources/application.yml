@@ -10,4 +10,5 @@ info:
          description : REST content repository
          version : 0.0.1
          
-         
+spring:
+         profiles : dev         
