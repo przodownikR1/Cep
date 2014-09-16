@@ -59,9 +59,9 @@ public class HelloController {
     @AllArgsConstructor
     @ApiModel("Car Entry")
     public class Car {
-        @ApiModelProperty(value = "name of the item", required = true)
+        @ApiModelProperty(value = "name", required = true)
         private String name;
-        @ApiModelProperty(value = "age of the car", required = true)
+        @ApiModelProperty(value = "age", required = true)
         private String age;
     }
 }
