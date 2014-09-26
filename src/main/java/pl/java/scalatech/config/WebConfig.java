@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.web.client.RestTemplate;
 
 @Configuration
 public class WebConfig  {
@@ -16,6 +17,11 @@ public class WebConfig  {
         factory.setMaxFileSize("1500KB");
         factory.setMaxRequestSize("1500KB");
         return factory.createMultipartConfig();
+    }
+    
+    @Bean
+    RestTemplate restTemplate(){
+        return new RestTemplate();
     }
     
     @Bean   
