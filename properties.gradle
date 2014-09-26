@@ -8,11 +8,11 @@ ext {
       slf4jVersion = "1.7.7"
       logbackVersion = "1.1.2"
       
-      springVersion = "4.0.7.RELEASE"
+      springVersion = "4.1.0.RELEASE"
       springDataRestWebmvcVersion = "2.0.0.RELEASE"
-      springDataJPAVersion = "1.6.0.RELEASE"
+      springDataJPAVersion = "1.7.0.RELEASE"
       javaxValidationVersion = "1.1.0.Final"
-      
+      servletVersion = "3.1.0"
       groovyVersion = "2.2.1"
       jodaTimeVersion ="2.3"
       jacksonMapperVersion = "1.9.13"

@@ -1,10 +1,7 @@
 package pl.java.scalatech.config;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
-import java.util.Properties;
 
-import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.env.YamlPropertySourceLoader;
 import org.springframework.context.annotation.Bean;

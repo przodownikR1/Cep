@@ -87,10 +87,11 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-aop")
     compile("org.springframework.boot:spring-boot-starter-logging")
     compile("org.springframework.boot:spring-boot-starter-data-mongodb")
+    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+    compile ("javax.servlet:javax.servlet-api:${servletVersion}")
     // compile("org.springframework.boot:spring-boot-starter-security")
     //compile("org.springframework.security.oauth:spring-security-oauth2:${springSecurityOauth2Version}")
   
-
     compile("com.mangofactory:swagger-springmvc:0.8.8")
     compile ("org.ajar:swagger-spring-mvc-ui:0.2")
     
@@ -99,14 +100,7 @@ dependencies {
    
     compile("org.projectlombok:lombok:${lombokVersion}")
     compile("com.google.guava:guava:${guavaVersion}")
-    
-    compile("com.codahale.metrics:metrics-core:${codahale}")
-    compile("com.codahale.metrics:metrics-graphite:${codahale}")
-    compile("com.codahale.metrics:metrics-jvm:${codahale}")
-    compile("com.ryantenney.metrics:metrics-spring:3.0.1")
-    compile("com.codahale.metrics:metrics-servlet:${codahale}")
-    compile("com.codahale.metrics:metrics-servlets:${codahale}")
-    
+      
     compile("org.apache.httpcomponents:httpclient:${httpClientVersion}")
     compile("org.apache.httpcomponents:fluent-hc:${httpClientVersion}")
     
