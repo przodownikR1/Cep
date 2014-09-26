@@ -19,6 +19,8 @@ public class FileData implements Serializable {
     private long length;
     private String md5;
     private String type;
+    private String contentType;
+    private String login;
 
     public String getType() {
         return getExtFromFile(fileName);
@@ -26,7 +28,7 @@ public class FileData implements Serializable {
 
     private Map<String, String> extra;
 
-    public FileData(String fileName, byte[] content, Map<String, String> extra) {
+    public FileData(String fileName, byte[] content, String contentType,String login, Map<String, String> extra) {
         this.fileName = fileName;
         this.content = content;
         this.extra = extra;
@@ -34,7 +36,7 @@ public class FileData implements Serializable {
 
     }
 
-    public FileData(String fileName, long length, String md5, Map<String, String> extra) {
+    public FileData(String fileName, long length, String md5,String contentType, String login, Map<String, String> extra) {
         this.fileName = fileName;
         this.length = length;
         this.md5 = md5;
@@ -42,8 +44,8 @@ public class FileData implements Serializable {
         this.type = getExtFromFile(fileName);
     }
 
-    public FileData(String fileName, byte[] content, long length, String md5, Map<String, String> extra) {
-        this(fileName, content, extra);
+    public FileData(String fileName, byte[] content, long length, String md5,String contentType,String login, Map<String, String> extra) {
+        this(fileName, content,contentType,login, extra);
         this.length = length;
         this.md5 = md5;
         this.type = getExtFromFile(fileName);

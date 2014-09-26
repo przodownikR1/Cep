@@ -11,4 +11,9 @@ info:
          version : 0.0.1
          
 spring:
-         profiles : dev         
+         profiles : dev
+         thymeleaf :
+                     suffix : .html
+                     cache : false
+                     templateMode : HTML5
+                              

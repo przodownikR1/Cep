@@ -1,20 +1,46 @@
 package pl.java.scalatech.web.controller;
 
+import java.io.IOException;
+import java.net.URI;
+import java.security.Principal;
+import java.util.Map;
+import java.util.Optional;
+
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import com.google.common.base.Joiner;
+
+import pl.java.scalatech.assembler.FileDataAssembler;
+import pl.java.scalatech.assembler.FileDataResource;
+import pl.java.scalatech.service.filestorage.FileService;
+import pl.java.scalatech.service.filestorage.pojo.FileData;
+
+import com.google.common.collect.Maps;
 
 @Controller
 @Slf4j
 public class FileUploadController {
+
+    private final static String FD = "fd";
+    private final FileDataAssembler fileDataAssembler;
+    private final FileService fileService;
+
+    @Autowired
+    public FileUploadController(FileService fileService) {
+        this.fileDataAssembler = new FileDataAssembler(this.getClass(), FileDataResource.class);
+        this.fileService = fileService;
+    }
 
     @RequestMapping(value = "/fileUpload", method = RequestMethod.GET)
     public String redirect() {
@@ -22,21 +48,31 @@ public class FileUploadController {
     }
 
     @RequestMapping(value = "/fileUpload", method = RequestMethod.POST)
-    public String importParse(@RequestParam("myFile") MultipartFile myFile, RedirectAttributes ra) {
+    @ResponseBody
+    public HttpEntity<?> importParse(@RequestParam("myFile") MultipartFile myFile, RedirectAttributes ra, Optional<Principal> principal) throws IOException {
         ra.addFlashAttribute("message", "Successfully upload..");
         log.info("++++                  {}", myFile);
+        Map<String, String> extraInfo = Maps.newHashMap();
+        extraInfo.put("fileName", myFile.getOriginalFilename());
+        extraInfo.put("fileSize", Long.toString(myFile.getSize()));
+        extraInfo.put("contentType", myFile.getContentType());
+        log.info("+++ extraInfo  {}", extraInfo);
+        log.info("+++ fileName  {}", myFile.getOriginalFilename());
+        log.info("+++ fileSize  {}", myFile.getSize());
+        log.info("+++ contentType  {}", myFile.getContentType());
+        log.info("!!!!   {}", fileService);
+        FileData fd = null;
+      
         
-        log.info("++++ contentType                 {}", myFile.getContentType());
-        log.info("++++ name                        {}", myFile.getName());
-        log.info("++++ size                        {}", myFile.getSize());
+        fd = fileService.put(new FileData(myFile.getOriginalFilename(), myFile.getBytes(), myFile.getContentType(), "slawek", extraInfo), "slawek");
+        fd.setContent(myFile.getBytes());
 
-        ra.addFlashAttribute("info", Joiner.on(",").join(new String[] { myFile.getContentType(), myFile.getName(), "" + myFile.getSize(),myFile.getOriginalFilename() }));
-        return "redirect:uploadSuccess.html";
+        log.info("fd -> {}", fd);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        String newResourceLink = fileDataAssembler.toResource(fd).getLink("resource").getHref();
+        httpHeaders.setLocation(URI.create(newResourceLink));
+        return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
+
     }
 
-    @RequestMapping(value = "uploadSuccess.html", method = RequestMethod.GET)
-    @ResponseBody
-    public String successMessage(Model model) {
-        return model.asMap().get("info").toString();
-    }
 }

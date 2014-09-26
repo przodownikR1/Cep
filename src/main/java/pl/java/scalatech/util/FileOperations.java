@@ -83,6 +83,7 @@ public final class FileOperations {
     }
 
     public static Map<String, String> getNameAndExtFromFile(String fileName) {
+        log.info(" ++++  getNameAndExtFromFile  {}",fileName);
         Splitter splitter = Splitter.on('.').omitEmptyStrings().trimResults();
         List<String> parts = splitter.splitToList(fileName);
         Map<String, String> metaFile = Maps.newHashMap();
