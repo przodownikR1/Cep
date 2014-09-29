@@ -32,7 +32,7 @@ public class RepositoryTest {
       //given
       User user = new User();
       user.setLogin("przodownik");
-      user.setName("borowiec slawek ");
+      user.setEmail("przodownikR1@gmail.com");
       //when
       user = userRepository.save(user);
       log.info("{}",user);

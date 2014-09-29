@@ -17,11 +17,7 @@ import com.google.common.collect.Lists;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 
-/**
- * @author Sławomir Borowiec
- *         Module name : rest-neo4j-kata
- *         Creating time : 18 mar 2014 12:48:03
- */
+
 @RestController
 @Slf4j
 @Api(value = "health", description = "health API")
@@ -30,9 +26,9 @@ public class HealthController {
     @Autowired
     private ApplicationContext applicationContext;
 
-    @RequestMapping(value = "/api/appContext", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/appContext", method = RequestMethod.GET,produces="application/json")
     @ApiOperation(httpMethod = "GET", value = "context bean list")
-    public ResponseEntity<String> appContext() {
+    ResponseEntity<String> appContext() {
         List<String> names = Lists.newArrayList(applicationContext.getBeanDefinitionNames());
         names.sort((String s1, String s2) -> s1.compareTo(s2));
         String appContext = Joiner.on("<br/>").join(names);

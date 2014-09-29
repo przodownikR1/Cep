@@ -1,15 +1,26 @@
 package pl.java.scalatech.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document
 @Data
-public class User {
-    @Id
-    private String id;
+@EqualsAndHashCode(callSuper=true)
+public class User extends AbstractDocument{
+    
+    
+    @Field("login")
+    @Indexed(unique=true)
     private String login;
-    private String name;
+    
+    @Field("email")
+    private String email;
+    
+    
+    
+  
 }

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import pl.java.scalatech.assembler.FileDataAssembler;
 import pl.java.scalatech.assembler.FileDataResource;
@@ -43,15 +44,15 @@ public class FileUploadController {
     }
 
     @RequestMapping(value = "/fileUpload", method = RequestMethod.GET)
-    public String redirect() {
+    String redirect() {
         return "fileUpload";
     }
 
     @RequestMapping(value = "/fileUpload", method = RequestMethod.POST)
     @ResponseBody
-    public HttpEntity<?> importParse(@RequestParam("myFile") MultipartFile myFile, RedirectAttributes ra, Optional<Principal> principal) throws IOException {
+    HttpEntity<?> importParse(@RequestParam("myFile") MultipartFile myFile, RedirectAttributes ra, UriComponentsBuilder uri, Optional<Principal> principal)
+            throws IOException {
         ra.addFlashAttribute("message", "Successfully upload..");
-        log.info("++++                  {}", myFile);
         Map<String, String> extraInfo = Maps.newHashMap();
         extraInfo.put("fileName", myFile.getOriginalFilename());
         extraInfo.put("fileSize", Long.toString(myFile.getSize()));
@@ -60,15 +61,15 @@ public class FileUploadController {
         log.info("+++ fileName  {}", myFile.getOriginalFilename());
         log.info("+++ fileSize  {}", myFile.getSize());
         log.info("+++ contentType  {}", myFile.getContentType());
-        log.info("!!!!   {}", fileService);
         FileData fd = null;
-      
-        
+        //TODO
         fd = fileService.put(new FileData(myFile.getOriginalFilename(), myFile.getBytes(), myFile.getContentType(), "slawek", extraInfo), "slawek");
         fd.setContent(myFile.getBytes());
 
         log.info("fd -> {}", fd);
         HttpHeaders httpHeaders = new HttpHeaders();
+        String url = uri.path("/api/resource/{md5}").buildAndExpand(fd.getMd5()).toUriString();
+  
         String newResourceLink = fileDataAssembler.toResource(fd).getLink("resource").getHref();
         httpHeaders.setLocation(URI.create(newResourceLink));
         return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);

@@ -1,8 +1,8 @@
 package pl.java.scalatech.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -14,11 +14,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 @Document(collection = "userResources")
 @Data
-public class UserResource {
-    @Id
-    private String id;
+@EqualsAndHashCode(callSuper=true)
+public class UserResource extends AbstractDocument{
+    
     @DBRef
     private User user;
+    
     private String resourceMd5;
+    
     private String resourceName;
+    
+    private int resourceCount;
+    
+    private long capacityOwner;
 }
