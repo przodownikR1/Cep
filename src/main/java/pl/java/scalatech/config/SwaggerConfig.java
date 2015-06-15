@@ -32,7 +32,7 @@ public class SwaggerConfig {
         return new SwaggerSpringMvcPlugin(this.springSwaggerConfig).apiInfo(apiInfo()).includePatterns(".*api/*.*");
     }
 
-    private ApiInfo apiInfo() {
+    private static ApiInfo apiInfo() {
         ApiInfo apiInfo = new ApiInfo("Content repo", "PoC content repo", "API terms of service", "przodownikR1@gmail.com", "MIT API Licence Type",
                 "przodownikR1 API License");
         return apiInfo;
