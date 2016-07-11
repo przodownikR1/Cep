@@ -1,11 +1,6 @@
 package pl.java.scalatech.config;
 
-import java.util.Arrays;
-import java.util.List;
-
 import javax.servlet.MultipartConfigElement;
-
-import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.MultipartConfigFactory;
@@ -16,18 +11,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
-import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
-import org.thymeleaf.templateresolver.TemplateResolver;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Configuration
 @EnableWebMvc
@@ -63,36 +53,18 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/js/**").addResourceLocations("/js/").setCachePeriod(31556926);
     }
 
-    @Bean
-    public TemplateResolver templateResolver() {
-        ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver();
-        templateResolver.setPrefix("/templates/");
-        templateResolver.setSuffix(".html");
-        templateResolver.setTemplateMode("HTML5");
-        List<String> profiles = Arrays.asList(env.getActiveProfiles());
-        if (profiles.contains("dev")) {
-            templateResolver.setCacheable(false);
-            log.info("++++ templateResolver cache off ... -> dev");
+  
 
-        }
-        // TODO
-        templateResolver.setCacheable(false);
-        templateResolver.setCharacterEncoding("UTF-8");
-        templateResolver.setOrder(2);
-        return templateResolver;
-    }
-
-    @Override
+ /*   @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
         configurer.favorPathExtension(true).favorParameter(true).parameterName("mediaType").ignoreAcceptHeader(false)
                 .defaultContentType(MediaType.APPLICATION_JSON).mediaType("xml", MediaType.APPLICATION_XML).mediaType("json", MediaType.APPLICATION_JSON);
     }
 
-    @Bean
+    //@Bean    
     public ViewResolver contentNegotiatingViewResolver(ContentNegotiationManager manager) {
         ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
-
         resolver.setContentNegotiationManager(manager);
         return resolver;
-    }
+    }*/
 }
