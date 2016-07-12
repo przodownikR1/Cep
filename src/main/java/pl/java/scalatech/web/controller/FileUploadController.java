@@ -1,5 +1,6 @@
 package pl.java.scalatech.web.controller;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static pl.java.scalatech.service.filestorage.pojo.FileData.URL_RESOURCE_MAPPING;
 
 import java.io.IOException;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -32,8 +34,9 @@ import pl.java.scalatech.repository.UserResourceRepository;
 import pl.java.scalatech.service.filestorage.FileService;
 import pl.java.scalatech.service.filestorage.pojo.FileData;
 
-@Controller
+@RestController
 @Slf4j
+@RequestMapping(value="/api/resource"/*,consumes={V1_MEDIA_TYPE_VALUE},*/,produces = APPLICATION_JSON_VALUE)//headers={VersionApi.V1_MEDIA_TYPE_VALUE_HEADER}
 public class FileUploadController {
     private static final String DEFAULT_USER_LOGIN = "default";
     private static final String RESOURCE = "resource";
@@ -50,11 +53,7 @@ public class FileUploadController {
         this.userResourceRepository = userResourceRepository;
     }
 
-    @RequestMapping(value = "/fileUpload", method = RequestMethod.GET)
-    String redirect() {
-        return "fileUpload";
-    }
-
+  
     @RequestMapping(value = "/fileUpload", method = RequestMethod.POST)
     @ResponseBody
     HttpEntity<?> importParse(@RequestParam(MY_FILE) MultipartFile myFile, RedirectAttributes ra, UriComponentsBuilder uri, Optional<Principal> principal)

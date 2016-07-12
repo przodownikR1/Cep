@@ -54,8 +54,6 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-aop'
     compile 'org.springframework.boot:spring-boot-starter-logging'
     compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
-    compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    
     
     compile "javax.servlet:javax.servlet-api:${servletVersion}"
     compile 'org.springframework.boot:spring-boot-starter-validation'
