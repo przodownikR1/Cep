@@ -1,6 +1,5 @@
 Java HotSpot(TM) Server VM (25.91-b14) for linux-x86 JRE (1.8.0_91-b14), built on Apr  1 2016 01:01:13 by "java_re" with gcc 4.3.0 20080428 (Red Hat 4.3.0-8)
-Memory: 4k page, physical 16370316k(1495108k free), swap 16711676k(16680548k free)
+Memory: 4k page, physical 16370316k(1458512k free), swap 16711676k(16652472k free)
 CommandLine flags: -XX:GCLogFileSize=104857600 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/home/przodownik/logs/dump.hprof -XX:InitialHeapSize=67108864 -XX:MaxHeapSize=2147483648 -XX:MaxMetaspaceSize=536870912 -XX:NumberOfGCLogFiles=10 -XX:+PrintGC -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+UseGCLogFileRotation -XX:+UseParallelGC 
-0,264: [GC (Allocation Failure) [PSYoungGen: 16640K->2553K(19200K)] 16640K->3491K(62976K), 0,0025569 secs] [Times: user=0,00 sys=0,00, real=0,01 secs] 
-0,343: [GC (Allocation Failure) [PSYoungGen: 19193K->2551K(19200K)] 20131K->3820K(62976K), 0,0021479 secs] [Times: user=0,00 sys=0,00, real=0,01 secs] 
-12,931: [GC (Allocation Failure) [PSYoungGen: 19191K->2544K(19200K)] 20460K->5524K(62976K), 0,0038610 secs] [Times: user=0,00 sys=0,02, real=0,00 secs] 
+0,260: [GC (Allocation Failure) [PSYoungGen: 16640K->2550K(19200K)] 16640K->3500K(62976K), 0,0026206 secs] [Times: user=0,02 sys=0,00, real=0,00 secs] 
+0,343: [GC (Allocation Failure) [PSYoungGen: 19190K->2547K(19200K)] 20140K->3870K(62976K), 0,0024763 secs] [Times: user=0,00 sys=0,00, real=0,01 secs] 
