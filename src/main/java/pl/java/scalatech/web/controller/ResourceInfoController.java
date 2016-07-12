@@ -17,10 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 import pl.java.scalatech.repository.UserResourceRepository;
 import pl.java.scalatech.service.filestorage.FileService;
 import pl.java.scalatech.service.filestorage.pojo.FileData;
-import pl.java.scalatech.web.controller.version.VersionApi;
 
 @RestController
-@RequestMapping(value="/api/resource",consumes={VersionApi.V1_MEDIA_TYPE_VALUE})//,headers={VersionApi.V1_MEDIA_TYPE_VALUE_HEADER}
+@RequestMapping(value="/api/resource"/*,consumes={VersionApi.V1_MEDIA_TYPE_VALUE}*/)//,headers={VersionApi.V1_MEDIA_TYPE_VALUE_HEADER}
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
 public class ResourceInfoController {

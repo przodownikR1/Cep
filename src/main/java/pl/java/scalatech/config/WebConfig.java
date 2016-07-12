@@ -3,6 +3,8 @@ package pl.java.scalatech.config;
 import static java.util.Arrays.stream;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import javax.servlet.MultipartConfigElement;
@@ -16,12 +18,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -72,6 +78,33 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         stream(env.getActiveProfiles()).filter(p->DEV_PROFILE.equals(p)).findFirst().ifPresent(t -> registry.addViewController("/").setViewName("swagger-ui.html"));
     }
   
+    @Autowired
+    private ContentNegotiationManager contentNegotiationManager;
+
+    /**
+     * Content Negotiation
+     */
+    @Override
+    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+        Map<String, MediaType> mediatypes = new HashMap<>();
+        mediatypes.put("html", MediaType.TEXT_HTML);
+        mediatypes.put("pdf", MediaType.parseMediaType("application/pdf"));
+        mediatypes.put("png", MediaType.parseMediaType("application/png"));
+        mediatypes.put("jpg", MediaType.parseMediaType("application/jpg"));
+        mediatypes.put("xls", MediaType.parseMediaType("application/vnd.ms-excel"));
+        mediatypes.put("xml", MediaType.APPLICATION_XML);
+        mediatypes.put("json", MediaType.APPLICATION_JSON);
+        
+        configurer.mediaTypes(mediatypes);
+    }
+
+    @Bean
+    public ContentNegotiatingViewResolver contentNegotiatingViewResolver() {
+        ContentNegotiatingViewResolver viewResolver = new ContentNegotiatingViewResolver();
+        viewResolver.setContentNegotiationManager(contentNegotiationManager);
+        return viewResolver;
+}
+    
  /*   @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
         configurer.favorPathExtension(true).favorParameter(true).parameterName("mediaType").ignoreAcceptHeader(false)

@@ -1,8 +1,9 @@
 package pl.java.scalatech.web.controller;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.parseMediaType;
+import static pl.java.scalatech.web.controller.version.VersionApi.V1_MEDIA_TYPE_VALUE;
 
-import java.io.IOException;
 import java.security.Principal;
 import java.util.Optional;
 import java.util.Random;
@@ -23,10 +24,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import pl.java.scalatech.service.filestorage.FileService;
 import pl.java.scalatech.service.filestorage.pojo.FileData;
-import pl.java.scalatech.web.controller.version.VersionApi;
 
 @RestController
-@RequestMapping(value="/api/resource",consumes={VersionApi.V1_MEDIA_TYPE_VALUE})//headers={VersionApi.V1_MEDIA_TYPE_VALUE_HEADER}
+@RequestMapping(value="/api/resource"/*,consumes={V1_MEDIA_TYPE_VALUE},*/,produces = APPLICATION_JSON_VALUE)//headers={VersionApi.V1_MEDIA_TYPE_VALUE_HEADER}
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ResourceController {
@@ -37,7 +37,8 @@ public class ResourceController {
     Random r = new Random();
 
     @RequestMapping(value = "/{md5}", method = RequestMethod.GET)
-    public ResponseEntity<byte[]> getResource(@PathVariable(MD5) String md5, Optional<Principal> principal) throws IOException {
+    public ResponseEntity<byte[]> getResource(@PathVariable(MD5) String md5, Optional<Principal> principal)  {
+        log.info("+++++++++++++++++++++ TUTAJ");
         FileData fileData = null;
         if (principal.isPresent()) {
             fileData = fileService.retrieveFileDataByMD5(md5, principal.get().getName());
@@ -51,6 +52,8 @@ public class ResourceController {
         responseHeaders.setContentLength(fileData.getLength());
 
         String fdContentType = fileData.getExtra().get(CONTENT_TYPE);
+        
+        
         if (isSupportedFormatForImage(fdContentType)) {
             responseHeaders.setContentType(parseMediaType(fdContentType));
         } else {

@@ -122,6 +122,7 @@ public class MongoFileService implements FileService {
         log.info("file meta :  {}", file.getMetaData());
 
         byte[] content = convertInputStreamToByte(file.getInputStream());
+        log.info("+++++++++++++ content size {}",content.length); 
         @SuppressWarnings("unchecked")
         FileData result = new FileData(file.getFilename(), content, file.getLength(), file.getMD5(), file.getContentType(), login, file.getMetaData().toMap());
         return result;
