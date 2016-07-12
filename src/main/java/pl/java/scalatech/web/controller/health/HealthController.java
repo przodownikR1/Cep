@@ -22,7 +22,7 @@ public class HealthController {
     @Autowired
     private ApplicationContext applicationContext;
 
-    @RequestMapping(value = "/api/appContext", method = RequestMethod.GET,produces="application/json")
+    @RequestMapping(value = "/api/appContext", method = RequestMethod.GET,produces="text/html")
    
     ResponseEntity<String> appContext() {
         List<String> names = Lists.newArrayList(applicationContext.getBeanDefinitionNames());
