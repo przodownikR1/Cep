@@ -34,7 +34,6 @@ public final class FileOperations {
     public static byte[] fileToBytes(File f) {
         try (FileInputStream input = new FileInputStream(f)) {
             ByteSource byteSource = Files.asByteSource(f);
-
             byte[] readBytes = byteSource.read();
             return readBytes;
         } catch (IOException e) {
@@ -83,6 +82,7 @@ public final class FileOperations {
     }
 
     public static Map<String, String> getNameAndExtFromFile(String fileName) {
+        log.info(" ++++  getNameAndExtFromFile  {}",fileName);
         Splitter splitter = Splitter.on('.').omitEmptyStrings().trimResults();
         List<String> parts = splitter.splitToList(fileName);
         Map<String, String> metaFile = Maps.newHashMap();
@@ -90,5 +90,4 @@ public final class FileOperations {
         metaFile.put(FILE_EXT, parts.get(1));
         return metaFile;
     }
-
 }

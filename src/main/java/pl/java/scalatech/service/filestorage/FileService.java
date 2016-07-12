@@ -1,5 +1,7 @@
 package pl.java.scalatech.service.filestorage;
 
+import java.util.List;
+
 import pl.java.scalatech.service.filestorage.pojo.FileData;
 
 /**
@@ -9,12 +11,14 @@ import pl.java.scalatech.service.filestorage.pojo.FileData;
  */
 public interface FileService {
     
-    void removeFile(String name);
+    void removeFile(String name,String login);
 
-    FileData put(FileData fileData);
+    FileData put(FileData fileData,String login);
 
-    FileData retrieveFileDataByFileName(String fileName);
+    FileData retrieveFileDataByFileName(String fileName,String login);
 
-    FileData retrieveFileDataByMD5(String md5);
+    FileData retrieveFileDataByMD5(String md5,String login);
+    
+    List<FileData> retrieveFileDateByLogin(String login);
 
 }

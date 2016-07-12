@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
  * Module name :    poc
  * Creating time :  26 maj 2014
  */
+
+
 @Data
 @Component
 @ConfigurationProperties(value="info")
@@ -18,4 +20,5 @@ public class ApplicationInfo extends AbstractSettings {
     private String name;
     private String description;
     private String version;
+    
 }

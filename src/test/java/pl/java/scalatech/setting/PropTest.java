@@ -1,10 +1,12 @@
 package pl.java.scalatech.setting;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.fest.assertions.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,10 +49,10 @@ public class PropTest {
     @Test
     public void shouldPropLoaded() {
         log.info(" ++++   {}", applicationSettings);
-        Assertions.assertThat(applicationSettings).isNotNull();
+        assertThat(applicationSettings).isNotNull();
         
         log.info(" ++++   {}", applicationInfo);
-        Assertions.assertThat(applicationInfo).isNotNull();
+        assertThat(applicationInfo).isNotNull();
         
     }
 
