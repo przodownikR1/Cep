@@ -1,11 +1,7 @@
 package pl.java.scalatech.config;
 
-import static java.util.Arrays.stream;
-
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import javax.servlet.MultipartConfigElement;
 
@@ -30,13 +26,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 
 import lombok.extern.slf4j.Slf4j;
-
+import static java.util.Arrays.stream;
 @Configuration
 @EnableWebMvc
 @Slf4j
 @ComponentScan(basePackages = { "pl.java.scalatech.web.controller" }, useDefaultFilters = false, includeFilters = { @Filter(Controller.class) })
 public class WebConfig extends WebMvcConfigurerAdapter {
     private static final String DEV_PROFILE = "dev";
+    private static final String PROD_PROFILE = "prod";
     @Autowired
     private Environment env;
 
@@ -61,21 +58,27 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/META-INF/resources/webjars/").setCachePeriod(31556926);
-        registry.addResourceHandler("/css/**").addResourceLocations("/css/").setCachePeriod(31556926);
+        registry.addResourceHandler("/css/**").addResourceLocations("classpath:/META-INF/spring-boot-admin-server-ui/css/").setCachePeriod(31556926);
         registry.addResourceHandler("/images/**").addResourceLocations("/images/").setCachePeriod(31556926);
-        registry.addResourceHandler("/js/**").addResourceLocations("/js/").setCachePeriod(31556926);
+        registry.addResourceHandler("/js/**").addResourceLocations("classpath:/META-INF/spring-boot-admin-server-ui/js/").setCachePeriod(31556926);
         registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+        registry.addResourceHandler("index.html").addResourceLocations("classpath:/META-INF/spring-boot-admin-server-ui/");
         
     }
     
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        mapSwaggerIfDev(registry);
+        mapSwaggerIfProfile(registry);
+        
     }
 
-    private void mapSwaggerIfDev(ViewControllerRegistry registry) {
-        stream(env.getActiveProfiles()).filter(p->DEV_PROFILE.equals(p)).findFirst().ifPresent(t -> registry.addViewController("/").setViewName("swagger-ui.html"));
+    private void mapSwaggerIfProfile(ViewControllerRegistry registry) {
+        stream(env.getActiveProfiles()).filter(p->DEV_PROFILE.equals(p)).findFirst()
+        .ifPresent(t -> registry.addViewController("/").setViewName("/index.html"));
+        
+        stream(env.getActiveProfiles()).filter(p->PROD_PROFILE.equals(p)).findFirst()
+        .ifPresent(t -> registry.addViewController("/").setViewName("/health"));
     }
   
     @Autowired

@@ -4,9 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
-
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +11,11 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.google.common.collect.Lists;
+
+import lombok.extern.slf4j.Slf4j;
 import pl.java.scalatech.config.ApplicationConfigurations;
 import pl.java.scalatech.config.PropConfig;
-
-import com.google.common.collect.Lists;
 
 /**
  * @author Sławomir Borowiec 

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -34,7 +35,8 @@ public class ResourceInfoController {
     }
 
     @RequestMapping("user/{login}")
-    List<FileData> getUserResourceByLogin(String login,UriComponentsBuilder uri){        
+    List<FileData> getUserResourceByLogin(@PathVariable("login")String login,UriComponentsBuilder uri){
+        log.info("++++  {}",login);
         List<FileData> temp =  fs.retrieveFileDateByLogin(login);        
         return temp.stream().map(t -> {
             t.setResourceUrl(uri.path(URL_RESOURCE_MAPPING).buildAndExpand(t.getMd5()).toUriString());

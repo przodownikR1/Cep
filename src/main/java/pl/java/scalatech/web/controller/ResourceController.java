@@ -11,6 +11,7 @@ import java.util.Random;
 import javax.activation.MimetypesFileTypeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,8 @@ import lombok.extern.slf4j.Slf4j;
 import pl.java.scalatech.service.filestorage.FileService;
 import pl.java.scalatech.service.filestorage.pojo.FileData;
 
-@RestController
+//@RestController
+@RepositoryRestController
 @RequestMapping(value="/api/resource"/*,consumes={V1_MEDIA_TYPE_VALUE},*/,produces = APPLICATION_JSON_VALUE)//headers={VersionApi.V1_MEDIA_TYPE_VALUE_HEADER}
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -38,7 +40,6 @@ public class ResourceController {
 
     @RequestMapping(value = "/{md5}", method = RequestMethod.GET)
     public ResponseEntity<byte[]> getResource(@PathVariable(MD5) String md5, Optional<Principal> principal)  {
-        log.info("+++++++++++++++++++++ TUTAJ");
         FileData fileData = null;
         if (principal.isPresent()) {
             fileData = fileService.retrieveFileDataByMD5(md5, principal.get().getName());
@@ -61,7 +62,7 @@ public class ResourceController {
             String type = new MimetypesFileTypeMap().getContentType(fileData.getType());
             responseHeaders.setContentType(parseMediaType(type));
         }
-        return new ResponseEntity(fileData.getContent(), responseHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(fileData.getContent(), responseHeaders, HttpStatus.OK);
 
     }
 

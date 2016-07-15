@@ -11,9 +11,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import lombok.extern.slf4j.Slf4j;
-
-import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -26,12 +23,13 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.core.env.Environment;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.google.common.collect.Maps;
+
+import lombok.extern.slf4j.Slf4j;
 import pl.java.scalatech.config.MongoDBConfig;
 import pl.java.scalatech.service.filestorage.FileService;
 import pl.java.scalatech.service.filestorage.MongoFileService;
 import pl.java.scalatech.service.filestorage.pojo.FileData;
-
-import com.google.common.collect.Maps;
 
 /**
  * @author Sławomir Borowiec 
@@ -92,7 +90,7 @@ public class MongoDbConfigTest {
     }
 
     @Test
-    public void c_shouldPutAndRetrieveFile() throws IOException {
+    public void c_shouldPutAndRetrieveFile() {
         log.info("order 3");
         // given
         Assert.assertNotNull(fileService);

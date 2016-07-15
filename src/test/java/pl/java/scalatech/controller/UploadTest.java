@@ -1,10 +1,7 @@
 package pl.java.scalatech.controller;
 
-import lombok.extern.slf4j.Slf4j;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.client.RestTemplate;
 
+import lombok.extern.slf4j.Slf4j;
 import pl.java.scalatech.config.AppConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)

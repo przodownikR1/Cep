@@ -5,7 +5,7 @@
     <resetJUL>true</resetJUL>
   </contextListener>
   
- 
+ <include resource="org/springframework/boot/logging/logback/base.xml"/>
   <jmxConfigurator/>
   <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>

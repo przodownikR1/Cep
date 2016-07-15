@@ -66,7 +66,7 @@ public class FileControllerTest {
 
     @Test
     public void shouldHealthControllerWorks() throws Exception {
-        mockMvc.perform(get("/api/appContext")).andExpect(content().contentType("application/json")).andExpect(status().isOk());
+        mockMvc.perform(get("/api/appContext")).andExpect(content().contentType("text/html")).andExpect(status().isOk());
 
     }
 

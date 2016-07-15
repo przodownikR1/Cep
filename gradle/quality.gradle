@@ -82,7 +82,7 @@ findbugs {
 
 findbugsMain {
     reports {
-        xml.enabled = true
+        xml.enabled = false
         html.enabled = true
     }
 }
