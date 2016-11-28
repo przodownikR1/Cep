@@ -1,5 +1,7 @@
 package pl.java.scalatech.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import pl.java.scalatech.entity.User;
@@ -12,4 +14,8 @@ import pl.java.scalatech.entity.User;
  */
 public interface UserRepository extends MongoRepository<User, String>{
 
+    Optional<User> findByEmail(String email);
+    
+    Optional<User> findByLogin(String login);
+    
 }

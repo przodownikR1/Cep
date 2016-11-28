@@ -1,10 +1,9 @@
 package pl.java.scalatech.repository;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.Optional;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import pl.java.scalatech.entity.User;
 import pl.java.scalatech.entity.UserResource;
 
 /**
@@ -14,7 +13,7 @@ import pl.java.scalatech.entity.UserResource;
  
  */
 public interface UserResourceRepository extends MongoRepository<UserResource, String>{
-     Page<UserResource> findByUser(User user,Pageable pagaPageable);
      
+     Optional<UserResource> findByUserLogin(String login);
      
 }

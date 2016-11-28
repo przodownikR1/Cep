@@ -26,7 +26,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.google.common.collect.Maps;
 
 import lombok.extern.slf4j.Slf4j;
-import pl.java.scalatech.config.MongoDBConfig;
+import pl.java.scalatech.config.mongo.MongoDBConfig;
 import pl.java.scalatech.service.filestorage.FileService;
 import pl.java.scalatech.service.filestorage.MongoFileService;
 import pl.java.scalatech.service.filestorage.pojo.FileData;

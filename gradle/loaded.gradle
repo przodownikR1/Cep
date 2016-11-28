@@ -10,8 +10,8 @@ task copyAgent(type: Copy) {
     into "$buildDir/springLoaded"
 }
 
-bootRun {
-   jvmArgs = ["-javaagent:${new File("$buildDir/springLoaded/springloaded-1.2.5.RELEASE.jar").absolutePath}", '-noverify']
- }
+//bootRun {
+//   jvmArgs = ["-javaagent:${new File("$buildDir/springLoaded/springloaded-1.2.5.RELEASE.jar").absolutePath}", '-noverify']
+// }
 
 bootRun.dependsOn copyAgent

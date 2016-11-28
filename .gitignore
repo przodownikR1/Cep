@@ -1,12 +1,10 @@
 *.class
 .svn
 
-
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.ear
 
@@ -70,7 +68,6 @@ local.properties
 *.dmg
 *.gz
 *.iso
-*.jar
 *.rar
 *.tar
 *.zip
@@ -81,3 +78,4 @@ local.properties
 gc.log
 /mongoDB-springBoot.log
 /file_from_fd_store.png
+/.apt_generated/

@@ -1,4 +1,4 @@
-package pl.java.scalatech.config;
+package pl.java.scalatech.config.mongo;
 
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;

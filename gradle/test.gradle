@@ -9,7 +9,7 @@ buildscript {
     }
 }
 apply plugin: "info.solidsoft.pitest"
-
+apply plugin: 'groovy'
 
 sourceSets {
     integrationTest {
@@ -41,7 +41,16 @@ tasks.withType(Test) {
     }
 }
 
+tasks.withType(Test) {
+    maxParallelForks = 1
+}
+
+
+
 test {
+    
+    jvmArgs '-noverify'
+    
     if (gradle.startParameter.taskNames.find { ['integTest', 'release'].contains(it) })
       systemProperty 'integTest', 'true'
       maxHeapSize = '1024m'

@@ -15,10 +15,12 @@ public interface FileService {
 
     FileData put(FileData fileData,String login);
 
-    FileData retrieveFileDataByFileName(String fileName,String login);
+    FileData retrieveFileDataByFileName(String fileName);
 
-    FileData retrieveFileDataByMD5(String md5,String login);
+    FileData retrieveFileDataByMD5(String md5);
     
     List<FileData> retrieveFileDateByLogin(String login);
+    
+    List<FileData> findAll();
 
 }

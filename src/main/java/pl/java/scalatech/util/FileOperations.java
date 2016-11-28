@@ -1,5 +1,9 @@
 package pl.java.scalatech.util;
 
+import static com.google.common.base.Splitter.on;
+import static com.google.common.collect.Maps.newHashMap;
+import static com.google.common.io.Files.asByteSource;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,16 +14,15 @@ import java.io.Reader;
 import java.util.List;
 import java.util.Map;
 
-import lombok.extern.slf4j.Slf4j;
-import pl.java.scalatech.exception.StreamOperationException;
-import pl.java.scalatech.service.filestorage.pojo.FileData;
-
 import com.google.common.base.Splitter;
-import com.google.common.collect.Maps;
 import com.google.common.io.ByteSource;
 import com.google.common.io.ByteStreams;
 import com.google.common.io.CharStreams;
 import com.google.common.io.Files;
+
+import lombok.extern.slf4j.Slf4j;
+import pl.java.scalatech.exception.StreamOperationException;
+import pl.java.scalatech.service.filestorage.pojo.FileData;
 
 /**
  * @author Sławomir Borowiec
@@ -33,7 +36,7 @@ public final class FileOperations {
 
     public static byte[] fileToBytes(File f) {
         try (FileInputStream input = new FileInputStream(f)) {
-            ByteSource byteSource = Files.asByteSource(f);
+            ByteSource byteSource = asByteSource(f);
             byte[] readBytes = byteSource.read();
             return readBytes;
         } catch (IOException e) {
@@ -82,10 +85,10 @@ public final class FileOperations {
     }
 
     public static Map<String, String> getNameAndExtFromFile(String fileName) {
-        log.info(" ++++  getNameAndExtFromFile  {}",fileName);
-        Splitter splitter = Splitter.on('.').omitEmptyStrings().trimResults();
+        log.debug(" ++++  getNameAndExtFromFile  {}",fileName);
+        Splitter splitter = on('.').omitEmptyStrings().trimResults();
         List<String> parts = splitter.splitToList(fileName);
-        Map<String, String> metaFile = Maps.newHashMap();
+        Map<String, String> metaFile = newHashMap();
         metaFile.put(FILE_NAME, parts.get(0));
         metaFile.put(FILE_EXT, parts.get(1));
         return metaFile;

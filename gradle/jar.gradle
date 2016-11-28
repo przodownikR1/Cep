@@ -59,7 +59,19 @@ assemble.dependsOn sourcesJar, groovydocJar, javadocJar
     "UTF-8"
 ]
 
+task addHashFile << {
+    String gitCmd = "git log --pretty=format:'%H' -n 1"
+    def proc = gitCmd.execute()
+    proc.waitFor()
+    new File("commitHash.txt").withWriter { it << proc.in.text }
+}
+
 jar {
+    
+    dependsOn addHashFile
+    from "commitHash.txt"
+    
+    
     manifest {
       attributes(
               'Implementation-Title': "${project.name}",
@@ -72,16 +84,25 @@ jar {
       )
     }
   }
+  
+
 bootRun {
-   
-    def profileName = project.hasProperty('activeProfile') ? project.activeProfile : 'development'
-    def appOpts = ["-Dspring.profiles.active=$profileName"]
-    def stdOpts = ['-Dfile.encoding=UTF8', '-Xms1024m', '-Xmx2048M' ,'-XX:+UseG1GC']
+     if (System.properties.containsKey('spring.profiles.active')) {
+         systemProperty "spring.profiles.active", System.properties['spring.profiles.active']
+    }
+
+    def stdOpts = ['-Dfile.encoding=UTF8', '-Xms512m', '-Xmx1024m' ,'-XX:+UseG1GC']
     def gcOpts = ['-verbose:gc','-XX:+PrintGCDetails', '-XX:+PrintHeapAtGC',
                   '-XX:+PrintGCDateStamps', '-XX:+PrintTenuringDistribution',
                   '-XX:+PrintClassHistogram', '-Xloggc:gc.log']
   
     jvmArgs = stdOpts + gcOpts
+    
+    if ( project.hasProperty('jvmArgs') ) {
+        jvmArgs project.jvmArgs.split('\\s+')
+    }
+     
   }
+  
   
 //applicationDefaultJvmArgs  = ["-Xms1024m -Xmx2048M -XX:+PrintClassHistogram -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintHeapAtGC -Xloggc:gc.log"]

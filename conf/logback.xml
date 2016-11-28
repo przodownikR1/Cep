@@ -5,6 +5,7 @@
     <resetJUL>true</resetJUL>
   </contextListener>
   
+  
  <include resource="org/springframework/boot/logging/logback/base.xml"/>
   <jmxConfigurator/>
   <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
@@ -29,6 +30,15 @@
   <logger name="com.mongodb" level="info" />
   <logger name="org.springframework.data" level="debug" />
   <logger name="org.springframework.data.mongodb" level="debug" />
+  <logger name="org.springframework.cloud.netflix.zuul.web.ZuulHandlerMapping" level="WARN" />
+   <logger name="org.springframework.data.rest.webmvc.RepositoryRestHandlerMapping" level="warn" />
+  <logger name="org.springframework.data.rest.webmvc.BasePathAwareHandlerMapping" level="warn"/>
+  <logger name="org.springframework.context.support.PostProcessorRegistrationDelegate" level="warn"/>
+  <logger name="org.springframework.beans.factory.support.DefaultListableBeanFactory" level="warn"/>
+  <logger name="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping" level="warn"/>
+  <logger name="org.springframework.data.mongodb.core.MongoDbUtils" level="info"/>
+  
+    <logger name="com.mongodb.driver.cluster" level="info" additivity="false"/>
  
   <root level="info">
     <appender-ref ref="console" />

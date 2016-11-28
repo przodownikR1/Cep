@@ -1,7 +1,5 @@
 package pl.java.scalatech.service.filestorage;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static java.util.stream.Collectors.toList;
 import static pl.java.scalatech.util.FileOperations.convertByteToInputStream;
 import static pl.java.scalatech.util.FileOperations.convertInputStreamToByte;
 
@@ -26,12 +24,21 @@ import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSFile;
 import com.mongodb.gridfs.GridFSInputFile;
 
+import static java.util.stream.Collectors.toList;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import pl.java.scalatech.service.filestorage.pojo.FileData;
 import pl.java.scalatech.util.FileOperations;
 
+/**
+ * @author Sławomir Borowiec
+ *         Module name : Cep
+ *         Creating time : 11 wrz 2014 11:37:16
+ */
 @Component
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -58,15 +65,21 @@ public class MongoFileService implements FileService {
         GridFSFile gridFsFile = null;
         DBObject metaData = mapToMetaData(input.getExtra());
         gridFsFile = gridFsTemplate.store(convertByteToInputStream(input.getContent()), input.getFileName(), input.getType(), metaData);
-        log.info("md5   : {}", gridFsFile.getMD5());
+        log.debug("md5   : {}  , login : {}", gridFsFile.getMD5(), login);
         @SuppressWarnings("unchecked")
-        FileData newFile = new FileData(gridFsFile.getFilename(), gridFsFile.getLength(), gridFsFile.getMD5(), gridFsFile.getContentType(), login, gridFsFile.getMetaData().toMap());
+        FileData newFile = new FileData(gridFsFile.getFilename(), gridFsFile.getLength(), gridFsFile.getMD5(), gridFsFile.getContentType(), login,
+                gridFsFile.getMetaData().toMap());
         return newFile;
     }
 
+    @Override
     public List<FileData> findAll() {
-        // TODO
-        return null;
+        List<GridFSDBFile> files = this.gridFsTemplate.find(queryFileAll());
+        return wrapFileData("", files);
+    }
+
+    private Query queryFileAll() {
+        return (new Query());
     }
 
     private DBObject mapToMetaData(Map<String, String> addInfoMap) {
@@ -80,8 +93,8 @@ public class MongoFileService implements FileService {
         file.setFilename(fileData.getFileName());
         file.save();
         @SuppressWarnings("unchecked")
-        FileData newFile = new FileData(fileData.getFileName(), fileData.getContent(), file.getLength(), file.getMD5(), file.getContentType(), login, file
-                .getMetaData().toMap());
+        FileData newFile = new FileData(fileData.getFileName(), fileData.getContent(), file.getLength(), file.getMD5(), file.getContentType(), login,
+                file.getMetaData().toMap());
         return newFile;
     }
 
@@ -96,15 +109,16 @@ public class MongoFileService implements FileService {
     }
 
     @Override
-    public FileData retrieveFileDataByFileName(String fileName, String login) {
+    public FileData retrieveFileDataByFileName(String fileName) {
         GridFSDBFile file = gridFsTemplate.findOne(queryFileDemandByFileName(fileName));
         checkNotNull(file, "File not exists in fs storage");
 
-        log.info("file content type {}", file.getContentType());
-        log.info("file meta :  {}", file.getMetaData());
+        log.debug("file content type {}", file.getContentType());
+        log.debug("file meta :  {}", file.getMetaData());
 
+         
         @SuppressWarnings("unchecked")
-        FileData fileData = new FileData(file.getFilename(), convertInputStreamToByte(file.getInputStream()), file.getLength(), file.getContentType(), login,
+        FileData fileData = new FileData(file.getFilename(), convertInputStreamToByte(file.getInputStream()), file.getLength(), file.getContentType(), file.getMetaData().get("login").toString(),
                 file.getMD5(), file.getMetaData().toMap());
 
         return fileData;
@@ -115,16 +129,16 @@ public class MongoFileService implements FileService {
     }
 
     @Override
-    public FileData retrieveFileDataByMD5(String md5, String login) {
+    public FileData retrieveFileDataByMD5(String md5) {
         GridFSDBFile file = this.gridFsTemplate.findOne(queryFileDemandByMd5(md5));
         checkNotNull(file, "File not exists in fs storage");
-        log.info("file content type {}", file.getContentType());
-        log.info("file meta :  {}", file.getMetaData());
+        log.debug("file content type {}", file.getContentType());
+        log.debug("file meta :  {}", file.getMetaData());
 
         byte[] content = convertInputStreamToByte(file.getInputStream());
-        log.info("+++++++++++++ content size {}",content.length); 
+        log.debug("+++++++++++++ content size {}", content.length);
         @SuppressWarnings("unchecked")
-        FileData result = new FileData(file.getFilename(), content, file.getLength(), file.getMD5(), file.getContentType(), login, file.getMetaData().toMap());
+        FileData result = new FileData(file.getFilename(), content, file.getLength(), file.getMD5(), file.getContentType(), file.getMetaData().get("login").toString(), file.getMetaData().toMap());
         return result;
     }
 
@@ -136,16 +150,20 @@ public class MongoFileService implements FileService {
     public List<FileData> retrieveFileDateByLogin(String login) {
         List<GridFSDBFile> files = this.gridFsTemplate.find(queryFileDemandByLogin(login));
         checkNotNull(files, "File not exists in fs storage");
-        log.info("file content type {}", files.stream().map(t->t.getContentType()).collect(toList()));
-        log.info("file meta :  {}", files.stream().map(t -> t.getMetaData().toString()).collect(toList()));
-        Function<GridFSDBFile,FileData> mapGridToData = file -> {          
-            FileData result = new FileData(file.getFilename(), file.getLength(), file.getMD5(), file.getContentType(), login, file.getMetaData().toMap());               
+        log.debug("file content type {}", files.stream().map(t -> t.getContentType()).collect(toList()));
+        log.debug("file meta :  {}", files.stream().map(t -> t.getMetaData().toString()).collect(toList()));
+        return wrapFileData(login, files);
+    }
+
+    private List<FileData> wrapFileData(String login, List<GridFSDBFile> files) {
+        Function<GridFSDBFile, FileData> mapGridToData = file -> {
+            FileData result = new FileData(file.getFilename(), file.getLength(), file.getMD5(), file.getContentType(), login, file.getMetaData().toMap());
             return result;
-        }; 
-        List<FileData> resultFileData = files.stream().map(mapGridToData).collect(toList());                 
+        };
+        List<FileData> resultFileData = files.stream().map(mapGridToData).collect(toList());
         return resultFileData;
     }
-    
+
     private Query queryFileDemandByLogin(String login) {
         return (new Query().addCriteria(Criteria.where("login").is(login)));
     }

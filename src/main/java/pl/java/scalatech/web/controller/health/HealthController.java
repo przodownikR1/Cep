@@ -1,35 +1,32 @@
 package pl.java.scalatech.web.controller.health;
 
+import static com.google.common.collect.Lists.newArrayList;
+
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
-
 import lombok.extern.slf4j.Slf4j;
-
 
 @RestController
 @Slf4j
 public class HealthController {
 
-    @Autowired
-    private ApplicationContext applicationContext;
+    private final ApplicationContext applicationContext;
 
-    @RequestMapping(value = "/api/appContext", method = RequestMethod.GET,produces="text/html")
-   
-    ResponseEntity<String> appContext() {
-        List<String> names = Lists.newArrayList(applicationContext.getBeanDefinitionNames());
+    public HealthController(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
+
+    @GetMapping(value = "/api/appContext")
+    ResponseEntity<List<String>> appContext() {
+        List<String> names = newArrayList(applicationContext.getBeanDefinitionNames());
         names.sort((String s1, String s2) -> s1.compareTo(s2));
-        String appContext = Joiner.on("<br/>").join(names);
         log.info("beans : {}", names);
-        return ResponseEntity.ok(appContext);
+        return ResponseEntity.ok(names);
     }
 
 }

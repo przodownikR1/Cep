@@ -1,5 +1,6 @@
 package pl.java.scalatech.service.filestorage.pojo;
 
+import static pl.java.scalatech.util.FileOperations.FILE_EXT;
 import static pl.java.scalatech.util.FileOperations.getNameAndExtFromFile;
 
 import java.io.Serializable;
@@ -9,12 +10,11 @@ import com.mongodb.gridfs.GridFSDBFile;
 
 import lombok.Data;
 import lombok.ToString;
-import pl.java.scalatech.util.FileOperations;
 
 @Data
 @ToString(exclude = "content")
 public class FileData implements Serializable {
-    public static final String URL_RESOURCE_MAPPING = "/api/resource/{md5}";
+    public static final String URL_RESOURCE_MAPPING = "/api/resource/md5/{md5}";
     private static final long serialVersionUID = -7570766590890541663L;
     private String fileName;
     private byte[] content;
@@ -58,7 +58,7 @@ public class FileData implements Serializable {
     }
 
     private String getExtFromFile(String fileName) {
-        return getNameAndExtFromFile(fileName).get(FileOperations.FILE_EXT);
+        return getNameAndExtFromFile(fileName).get(FILE_EXT);
     }
     
     static FileData createFileDataFromGrid(GridFSDBFile file,String login){

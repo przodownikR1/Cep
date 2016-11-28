@@ -1,13 +1,21 @@
 package pl.java.scalatech.entity;
 
-import org.springframework.data.mongodb.core.mapping.DBRef;
+import java.io.Serializable;
+import java.util.Set;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import static com.google.common.collect.Sets.newHashSet;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * @author Sławomir Borowiec 
@@ -17,22 +25,21 @@ import lombok.NoArgsConstructor;
  */
 @Document(collection = "userResources")
 @Data
-@EqualsAndHashCode(callSuper=true)
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserResource extends AbstractDocument{
+@ToString
+@JsonIgnoreProperties({"resourceRestriction","resources"})
+public class UserResource implements Serializable{
+ 
+    private static final long serialVersionUID = 1L;
+    @Id
+    private String id;
     
-    @DBRef
     private User user;
+
+    private Set<Resource> resources = newHashSet();
+
+    private ResourceRestriction resourceRestriction;
     
-    private String resourceMd5;
-    
-    private String resourceName;
-    
-    private int resourceCount;
-    
-    private long capacityOwner;
-    
-    private String login;
 }

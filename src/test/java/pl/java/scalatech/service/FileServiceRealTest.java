@@ -7,10 +7,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import pl.java.scalatech.config.ApplicationConfigurations;
-import pl.java.scalatech.config.MongoDBConfig;
-import pl.java.scalatech.config.MongoRepositoryConfig;
 import pl.java.scalatech.config.PropConfig;
 import pl.java.scalatech.config.ServiceConfig;
+import pl.java.scalatech.config.mongo.MongoDBConfig;
+import pl.java.scalatech.config.mongo.MongoRepositoryConfig;
 import pl.java.scalatech.service.filestorage.FileService;
 
 @RunWith(SpringJUnit4ClassRunner.class)

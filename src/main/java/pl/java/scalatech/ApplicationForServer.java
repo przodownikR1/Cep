@@ -2,59 +2,41 @@ package pl.java.scalatech;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.context.web.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Service;
 
-import de.codecentric.boot.admin.config.EnableAdminServer;
 import lombok.extern.slf4j.Slf4j;
 import pl.java.scalatech.config.AppConfig;
+import pl.java.scalatech.entity.ResourceRestriction;
 
-@Slf4j
 @Configuration
-@EnableAdminServer
 @EnableAutoConfiguration
-public class ApplicationForServer extends SpringBootServletInitializer {
-    
-
-    //private static ZooKeepPublisher zooKeepPublisher = null;
+public class ApplicationForServer {
     
     public static void main(String[] args) {
-     SpringApplication app = new  SpringApplication();
-     listenerAdded(app);
+     SpringApplication app = new  SpringApplication(); 
      app.run(ApplicationForServer.class, args);
      
     }
-
-    private static void listenerAdded(SpringApplication app) {
-        app.addListeners(event -> {
-             try {
-                 //zooKeepPublisher.start();
-                 System.out.println("\n\t==================================================\n\tCEP Server Started\n\t==================================================\n");
-             } catch (Exception ex) {
-                 System.err.println("Failed to register with ZooKeeper. Shutting down. Stack trace follows.");
-                 ex.printStackTrace(System.err);
-                 System.exit(-1);
-             }                       
-         });
-         app.addListeners(event -> {
-             System.out.println("\n\t==================================================\n\tCEP Server Started\n\t==================================================\n");
-             /*if(zooKeepPublisher!=null) {
-                 zooKeepPublisher.stop();
-                                                        
-             }*/
-         });
+    // @formatter:off
+    @Bean
+    ResourceRestriction start(){
+        return   ResourceRestriction.builder()               
+                .quota(200f)
+                .rateByDay(0)
+                .quotaByDay(3)
+                .rateByWeek(0)
+                .quotaByWeek(10)
+                .rateByMount(0)
+                .quotaByMount(50).countResource(0).build();
     }
+   // @formatter:on
 
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        SpringApplicationBuilder app = application.sources(WebConfiguration.class);              
-        return app;
-    }
+  
 
     @Configuration
     @Import(AppConfig.class)

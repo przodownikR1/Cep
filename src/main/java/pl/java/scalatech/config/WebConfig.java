@@ -1,5 +1,7 @@
 package pl.java.scalatech.config;
 
+import static java.util.Arrays.stream;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,12 +26,8 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
-
-import lombok.extern.slf4j.Slf4j;
-import static java.util.Arrays.stream;
 @Configuration
 @EnableWebMvc
-@Slf4j
 @ComponentScan(basePackages = { "pl.java.scalatech.web.controller" }, useDefaultFilters = false, includeFilters = { @Filter(Controller.class) })
 public class WebConfig extends WebMvcConfigurerAdapter {
     private static final String DEV_PROFILE = "dev";
@@ -58,7 +56,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/META-INF/resources/webjars/").setCachePeriod(31556926);
-        registry.addResourceHandler("/css/**").addResourceLocations("classpath:/META-INF/spring-boot-admin-server-ui/css/").setCachePeriod(31556926);
+        registry.addResourceHandler("/css/**").addResourceLocations("classpath:/META-INF/spring-boot-admin-server-ui/css/");
         registry.addResourceHandler("/images/**").addResourceLocations("/images/").setCachePeriod(31556926);
         registry.addResourceHandler("/js/**").addResourceLocations("classpath:/META-INF/spring-boot-admin-server-ui/js/").setCachePeriod(31556926);
         registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
@@ -75,7 +73,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     private void mapSwaggerIfProfile(ViewControllerRegistry registry) {
         stream(env.getActiveProfiles()).filter(p->DEV_PROFILE.equals(p)).findFirst()
-        .ifPresent(t -> registry.addViewController("/").setViewName("/index.html"));
+        .ifPresent(t -> registry.addViewController("/").setViewName("index.html"));
         
         stream(env.getActiveProfiles()).filter(p->PROD_PROFILE.equals(p)).findFirst()
         .ifPresent(t -> registry.addViewController("/").setViewName("/health"));
@@ -108,16 +106,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         return viewResolver;
 }
     
- /*   @Override
-    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-        configurer.favorPathExtension(true).favorParameter(true).parameterName("mediaType").ignoreAcceptHeader(false)
-                .defaultContentType(MediaType.APPLICATION_JSON).mediaType("xml", MediaType.APPLICATION_XML).mediaType("json", MediaType.APPLICATION_JSON);
-    }
+   
 
-    //@Bean    
-    public ViewResolver contentNegotiatingViewResolver(ContentNegotiationManager manager) {
-        ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
-        resolver.setContentNegotiationManager(manager);
-        return resolver;
-    }*/
+    
 }
