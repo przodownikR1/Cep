@@ -1,14 +1,14 @@
 Java HotSpot(TM) Server VM (25.112-b15) for linux-x86 JRE (1.8.0_112-b15), built on Sep 22 2016 19:41:19 by "java_re" with gcc 4.3.0 20080428 (Red Hat 4.3.0-8)
-Memory: 4k page, physical 16324040k(4046704k free), swap 16666620k(16651688k free)
+Memory: 4k page, physical 16324040k(4063168k free), swap 16666620k(16651688k free)
 CommandLine flags: -XX:GCLogFileSize=104857600 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/home/przodownik/logs/dump.hprof -XX:InitialHeapSize=67108864 -XX:MaxHeapSize=2147483648 -XX:MaxMetaspaceSize=536870912 -XX:NumberOfGCLogFiles=10 -XX:+PrintGC -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+UseGCLogFileRotation -XX:+UseParallelGC 
-0,436: [GC (Allocation Failure) [PSYoungGen: 16640K->2552K(19200K)] 16640K->3266K(62976K), 0,0038270 secs] [Times: user=0,02 sys=0,00, real=0,00 secs] 
-0,572: [GC (Allocation Failure) [PSYoungGen: 19192K->2550K(19200K)] 19906K->3876K(62976K), 0,0048237 secs] [Times: user=0,02 sys=0,00, real=0,01 secs] 
-0,788: [GC (Allocation Failure) [PSYoungGen: 19190K->2553K(19200K)] 20516K->4919K(62976K), 0,0030869 secs] [Times: user=0,02 sys=0,00, real=0,00 secs] 
+0,461: [GC (Allocation Failure) [PSYoungGen: 16640K->2548K(19200K)] 16640K->3261K(62976K), 0,0039535 secs] [Times: user=0,02 sys=0,00, real=0,00 secs] 
+0,619: [GC (Allocation Failure) [PSYoungGen: 19188K->2557K(19200K)] 19901K->3836K(62976K), 0,0049590 secs] [Times: user=0,02 sys=0,00, real=0,00 secs] 
+0,833: [GC (Allocation Failure) [PSYoungGen: 19197K->2549K(19200K)] 20476K->4972K(62976K), 0,0040867 secs] [Times: user=0,00 sys=0,00, real=0,01 secs] 
 Heap
- PSYoungGen      total 19200K, used 10973K [0xbc580000, 0xbeb00000, 0xe7000000)
-  eden space 16640K, 50% used [0xbc580000,0xbcdb8ef0,0xbd5c0000)
-  from space 2560K, 99% used [0xbd5c0000,0xbd83e538,0xbd840000)
+ PSYoungGen      total 19200K, used 13721K [0xbc580000, 0xbeb00000, 0xe7000000)
+  eden space 16640K, 67% used [0xbc580000,0xbd069138,0xbd5c0000)
+  from space 2560K, 99% used [0xbd5c0000,0xbd83d6a0,0xbd840000)
   to   space 2560K, 0% used [0xbe880000,0xbe880000,0xbeb00000)
- ParOldGen       total 43776K, used 2366K [0x67000000, 0x69ac0000, 0xbc580000)
-  object space 43776K, 5% used [0x67000000,0x6724f880,0x69ac0000)
- Metaspace       used 7802K, capacity 8029K, committed 8088K, reserved 8496K
+ ParOldGen       total 43776K, used 2422K [0x67000000, 0x69ac0000, 0xbc580000)
+  object space 43776K, 5% used [0x67000000,0x6725d9c8,0x69ac0000)
+ Metaspace       used 8024K, capacity 8251K, committed 8344K, reserved 8496K
