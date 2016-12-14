@@ -6,7 +6,6 @@ import static pl.java.scalatech.util.FileOperations.fileToBytes;
 import static pl.java.scalatech.util.FileOperations.getOnlyFileNameFromPath;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -32,10 +31,9 @@ import pl.java.scalatech.service.filestorage.MongoFileService;
 import pl.java.scalatech.service.filestorage.pojo.FileData;
 
 /**
- * @author Sławomir Borowiec 
- * Module name : Cep
- * Creating time :  5 wrz 2014 12:47:00
- 
+ * @author Sławomir Borowiec
+ *         Module name : Cep
+ *         Creating time : 5 wrz 2014 12:47:00
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -60,7 +58,7 @@ public class MongoDbConfigTest {
 
     @Before
     public void init() {
-        
+
         fileName = "src/test/resources/2.png";
         f = new File(fileName);
         fileName = getOnlyFileNameFromPath(fileName);
@@ -80,13 +78,13 @@ public class MongoDbConfigTest {
     @Test(expected = NullPointerException.class)
     public void a_shouldExceptionThrowWhenFileNotExistsInStorage() {
         log.info("order 1");
-        fileService.retrieveFileDataByMD5("f117eda589f22ca5a8910173367d971a","przodownik");
+        fileService.retrieveFileDataByMD5("f117eda589f22ca5a8910173367d971a");
     }
    // @Ignore
     @Test(expected = NullPointerException.class)
     public void b_shouldExceptionThrowWhenFileNotExistsInStorage_CreateVersion() {
         log.info("order 2");
-        fileService.retrieveFileDataByFileName("2.png","przodownik");
+        fileService.retrieveFileDataByFileName("2.png");
     }
 
     @Test
@@ -99,12 +97,12 @@ public class MongoDbConfigTest {
         FileData newFileInStorage = fileService.put(input,"przodownik");
         assertThat(newFileInStorage.getMd5()).isNotEmpty();
         // then
-        FileData fd2 = fileService.retrieveFileDataByFileName(fileName,"przodownik");
+        FileData fd2 = fileService.retrieveFileDataByFileName(fileName);
         assertThat(fd2).isNotNull();
         assertThat(fd2.getFileName()).isEqualTo(fileName);
         assertThat(fd2.getLength()).isGreaterThan(0);
         // then
-        FileData fd1 = fileService.retrieveFileDataByMD5(newFileInStorage.getMd5(),"przodownik");
+        FileData fd1 = fileService.retrieveFileDataByMD5(newFileInStorage.getMd5());
         assertThat(fd1).isNotNull();
         assertThat(fd1.getFileName()).isEqualTo(fileName);
         assertThat(fd1.getLength()).isGreaterThan(0);
@@ -115,7 +113,7 @@ public class MongoDbConfigTest {
     public void d_shouldSaveFileFromStorage() {
         log.info("order 4");
         // clean
-        FileData fd2 = fileService.retrieveFileDataByFileName(fileName,"przodownik");
+        FileData fd2 = fileService.retrieveFileDataByFileName(fileName);
         fd2.setFileName("file_from_fd_store.png");
         createFile(fd2);
 
@@ -126,9 +124,9 @@ public class MongoDbConfigTest {
         log.info("order 5");
         // clean
         fileService.removeFile(fileName,"przodownik");
-        fileService.retrieveFileDataByFileName(fileName,"przodownik");
+        fileService.retrieveFileDataByFileName(fileName);
 
     }
-    
+
 
 }
